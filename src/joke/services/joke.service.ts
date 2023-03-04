@@ -83,4 +83,8 @@ export class JokeService {
       throw new InternalServerErrorException();
     }
   }
+
+  async createMany(data) {
+    await this.jokeRepository.createMany(data);
+  }
 }

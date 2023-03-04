@@ -19,4 +19,15 @@ export class JokeRepository {
   async findById(id: string) {
     return await this.jokeModel.findById(id);
   }
+
+  //For seeding purpose
+  async createMany(data: Array<Partial<Joke>>) {
+    for (let i = 0; i < data.length; i++) {
+      await this.jokeModel.insertMany(data);
+    }
+  }
+
+  async count() {
+    return await this.jokeModel.countDocuments();
+  }
 }

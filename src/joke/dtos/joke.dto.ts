@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsMongoId, IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 import { FailResponse, SucessResponse } from '../../common/interface.common';
 import { Vote } from '../joke.constant';
 import { Joke } from '../models/joke.model';
