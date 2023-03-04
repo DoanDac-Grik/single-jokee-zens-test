@@ -53,12 +53,12 @@ export class JokeService {
     }
   }
 
-  async updateJoke(data: UpdateJokeDto) {
-    if (!isValidObjectId(data.id)) {
+  async updateJoke(id: string, data: UpdateJokeDto) {
+    if (!isValidObjectId(id)) {
       throw new BadRequestException('Joke Id is not valid');
     }
 
-    const joke = await this.jokeRepository.findById(data.id);
+    const joke = await this.jokeRepository.findById(id);
     if (!joke) {
       throw new BadRequestException('Joke does not exist');
     }
@@ -66,10 +66,10 @@ export class JokeService {
     try {
       switch (data.vote) {
         case Vote.like:
-          await this.jokeRepository.update(data.id, { likes: joke.likes + 1 });
+          await this.jokeRepository.update(id, { likes: joke.likes + 1 });
           break;
         case Vote.dislike:
-          await this.jokeRepository.update(data.id, {
+          await this.jokeRepository.update(id, {
             dislikes: joke.dislikes + 1,
           });
           break;

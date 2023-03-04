@@ -18,7 +18,8 @@ export class JokeController {
 
   @SwaggerUpdateJoke()
   @Put()
-  async updateJoke(@Body() payload: UpdateJokeDto) {
-    return this.jokeService.updateJoke(payload);
+  async updateJoke(@Req() request: Request, @Body() payload: UpdateJokeDto) {
+    const id = request.cookies['jokeId'];
+    return this.jokeService.updateJoke(id, payload);
   }
 }

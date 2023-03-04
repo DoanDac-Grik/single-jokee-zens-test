@@ -6,11 +6,6 @@ import { Joke } from '../models/joke.model';
 
 export class UpdateJokeDto {
   @IsNotEmpty()
-  @IsMongoId()
-  @ApiProperty({ example: '6402c106f0c3d15dbc4698b9' })
-  id: string;
-
-  @IsNotEmpty()
   @IsEnum(Vote)
   @ApiProperty({ example: 'LIKE' })
   vote: string;
