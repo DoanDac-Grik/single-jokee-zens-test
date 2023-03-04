@@ -12,8 +12,6 @@ import { JokeModule } from './joke/joke.module';
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URL, {
       useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
     }),
   ],
   controllers: [AppController],
