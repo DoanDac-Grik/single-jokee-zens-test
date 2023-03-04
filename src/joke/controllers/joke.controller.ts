@@ -20,7 +20,7 @@ export class JokeController {
     const result = await this.jokeService.getJoke(id);
 
     if (result.data.length > 0) {
-      response.cookie('jokeId', result.data[0].id);
+      response.cookie('jokeId', result.data[0]._id);
     }
     return result;
   }

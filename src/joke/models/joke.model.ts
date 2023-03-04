@@ -24,3 +24,10 @@ export class Joke extends Document {
   @Factory(0)
   dislikes: number;
 }
+
+export interface IJoke {
+  _id: string;
+  content: string;
+  likes: number;
+  dislikes: number;
+}
