@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Put, Req } from '@nestjs/common';
+import { Body, Controller, Get, Put, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { UpdateJokeDto } from '../dtos/joke.dto';
 import { SwaggerGetJoke, SwaggerUpdateJoke } from '../joke.swagger';
 import { JokeService } from '../services/joke.service';
@@ -11,9 +11,18 @@ export class JokeController {
 
   @SwaggerGetJoke()
   @Get()
-  async getJoke(@Req() request: Request) {
+  async getJoke(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const id = request.cookies['jokeId'];
-    return this.jokeService.getJoke(id);
+
+    const result = await this.jokeService.getJoke(id);
+
+    if (result.data.length > 0) {
+      response.cookie('jokeId', result.data[0].id);
+    }
+    return result;
   }
 
   @SwaggerUpdateJoke()
