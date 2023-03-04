@@ -6,16 +6,9 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdateJokeDto } from '../dtos/joke.dto';
 import { Vote } from '../joke.constant';
-import { IJoke, Joke } from '../models/joke.model';
+import { IJoke } from '../models/joke.model';
 import { JokeRepository } from '../repositories/joke.repository';
 import { JokeService } from './joke.service';
-
-let mockJoke = { content: 'content', likes: 0, dislikes: 100 };
-const mockJokeRepository = () => ({
-  findByCondition: jest.fn(),
-  update: jest.fn(),
-  findById: jest.fn(),
-});
 
 describe('JokeService', () => {
   let jokeService: JokeService;
