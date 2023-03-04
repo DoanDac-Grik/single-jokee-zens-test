@@ -3,11 +3,10 @@ import {
   HttpStatus,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { isValidObjectId } from 'mongoose';
 import { UpdateJokeDto } from '../dtos/joke.dto';
-import { Vote } from '../joke.enum';
+import { DEFAULT_MONGOID, Vote } from '../joke.constant';
 import { JokeRepository } from '../repositories/joke.repository';
 
 @Injectable()
@@ -22,13 +21,13 @@ export class JokeService {
     //Check exist
     const checkExistJoke = await this.jokeRepository.findById(id);
     if (id && !checkExistJoke) {
-      throw new NotFoundException('Joke not found');
+      throw new BadRequestException('Joke does not exist');
     }
 
     const joke = await this.jokeRepository.findByCondition(
       {
         _id: {
-          $gt: id ? id : '000000000000000000000000',
+          $gt: id ? id : DEFAULT_MONGOID,
         },
       },
       {
@@ -54,23 +53,25 @@ export class JokeService {
     }
   }
 
-  async updateJoke(id: string, data: UpdateJokeDto) {
-    if (!isValidObjectId(id)) {
+  async updateJoke(data: UpdateJokeDto) {
+    if (!isValidObjectId(data.id)) {
       throw new BadRequestException('Joke Id is not valid');
     }
 
-    const joke = await this.jokeRepository.findById(id);
+    const joke = await this.jokeRepository.findById(data.id);
     if (!joke) {
-      throw new NotFoundException('Joke not found');
+      throw new BadRequestException('Joke does not exist');
     }
 
     try {
       switch (data.vote) {
         case Vote.like:
-          await this.jokeRepository.update(id, { likes: joke.likes + 1 });
+          await this.jokeRepository.update(data.id, { likes: joke.likes + 1 });
           break;
         case Vote.dislike:
-          await this.jokeRepository.update(id, { dislikes: joke.dislikes + 1 });
+          await this.jokeRepository.update(data.id, {
+            dislikes: joke.dislikes + 1,
+          });
           break;
       }
 
