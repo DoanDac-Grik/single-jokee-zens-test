@@ -30,12 +30,8 @@ describe('AppController (e2e)', () => {
       .put('/api/jokes')
       .send({ vote: 'LIKE' })
       .set('Cookie', `jokeId=64033e3aa5d051e462bd8a4f`);
-    console.log(response);
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('message');
-  });
-
-  afterAll(async () => {
-    await app.close();
   });
 });
