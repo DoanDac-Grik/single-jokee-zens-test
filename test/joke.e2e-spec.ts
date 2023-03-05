@@ -17,8 +17,22 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/api/ping (GET) pong', () => {
-    return request(app.getHttpServer()).get('/ping').expect(200).expect('pong');
+  it('should return a joke', async () => {
+    const response = await request('http://localhost:3000').get('/api/jokes');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('data');
+    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.header['set-cookie']).toBeDefined();
+  });
+
+  it('should update joke', async () => {
+    const response = await request('http://localhost:3000')
+      .put('/api/jokes')
+      .send({ vote: 'LIKE' })
+      .set('Cookie', `jokeId=64033e3aa5d051e462bd8a4f`);
+    console.log(response);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('message');
   });
 
   afterAll(async () => {
