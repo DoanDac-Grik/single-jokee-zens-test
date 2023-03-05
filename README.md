@@ -14,6 +14,12 @@ There is no need to display the result of the votes. User should not see the sam
 _Technical Note_
 App will use cookie to track if a user has voted for a joke. It is okay if the user clears his cookie and votes again.
 
+## Technology
+
+- Framework: NestJS
+- Language: Typescript
+- Database/ORM: MongoDB/Mongoose
+
 ## Installation
 
 ```bash
